@@ -60,6 +60,7 @@ export default {
       axios
         .post('http://localhost:8000/api/auth/login', { email: this.email, password: this.password })
         .then((res) => {
+          console.log(res)
           if (res.status === 200) {
             localStorage.setItem('token', res.data.access_token) //store them from response
             router.push('/')
