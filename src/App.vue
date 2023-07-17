@@ -24,6 +24,8 @@ export default {
       const fromList = removedItem ? this.lists[evt.removed.oldIndex] : null;
       const toList = addedItem ? this.lists[evt.added.newIndex] : null;
 
+      console.log('isAdd',!!evt.added)
+      console.log('isRemove',!!evt.removed)
       // Perform actions with movedCard, fromList, and toList
       console.log("Moved Card:", movedCard);
       console.log("From List:", fromList);
