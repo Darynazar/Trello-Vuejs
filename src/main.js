@@ -1,56 +1,26 @@
-import { createApp } from "vue";
-import App from "./App.vue";
+import { createApp } from 'vue';
+import App from './App.vue';
+import { createRouter, createWebHistory } from 'vue-router';
+import draggable from 'vuedraggable';
 
-import "bootstrap/dist/css/bootstrap.css";
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.js';
+import router from "@/router";
 
-createApp(App).mount("#app");
+// Define your routes here if you have multiple pages
+// const routes = [
+//   { path: '/', component: Home },
+//   { path: '/about', component: About }
+// ]
 
-import "bootstrap/dist/js/bootstrap.js";
+// const router = createRouter({
+//   history: createWebHistory(),
+//   routes, // short for `routes: routes`
+// })
 
+const app = createApp(App);
 
+app.component('draggable', draggable);
+ // app.use(router);
 
-
-
-// import './assets/main.css'
-// import { Vue } from 'vue'
-// import { App } from './App.vue'
-
-// // import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
-// import 'bootstrap/dist/css/bootstrap.css'
-// import 'bootstrap-vue/dist/bootstrap-vue.css'
-// import BootstrapVue, { IconsPlugin } from 'bootstrap-vue'
-
-// Vue.use(BootstrapVue)
-// Vue.use(IconsPlugin)
-
-// new Vue({
-//   render: h => h(App),
-// }).$mount('#app')
-
-
-
-
-
-
-// import './assets/main.css'
-
-// import { createApp } from 'vue'
-// import { createPinia } from 'pinia'
-
-// import App from './App.vue'
-// import router from './router'
-
-// import 'bootstrap/dist/css/bootstrap.min.css'
-
-
-// const app = createApp(App)
-
-// app.use(createPinia())
-// app.use(router)
-
-// app.mount('#app')
-// // new Vue({
-// //   router,
-// //   render: h => h(App)
-// // }).$mount('#app')
-
+app.mount('#app');
