@@ -7,20 +7,28 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
 import router from "@/router";
 
-// Define your routes here if you have multiple pages
-// const routes = [
-//   { path: '/', component: Home },
-//   { path: '/about', component: About }
-// ]
+import '@fortawesome/fontawesome-free/css/all.css';
+import '@fortawesome/fontawesome-free/js/all.js';
 
-// const router = createRouter({
-//   history: createWebHistory(),
-//   routes, // short for `routes: routes`
-// })
+/* import the fontawesome core */
+import { library } from '@fortawesome/fontawesome-svg-core'
+
+/* import font awesome icon component */
+/* import specific icons */
+import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
+
+/* add icons to the library */
+library.add(faUserSecret)
 
 const app = createApp(App);
 
 app.component('draggable', draggable);
- // app.use(router);
+
+ app.use(router);
 
 app.mount('#app');
+
+
+
+
+

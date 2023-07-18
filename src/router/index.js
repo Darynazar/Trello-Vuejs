@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginComponent from '../components/LoginComponent.vue'
 import DashboardComponent from '../components/DashboardComponent.vue'
+import show from '../components/Show.vue'
 
 
 const router = createRouter({
@@ -29,6 +30,12 @@ const router = createRouter({
       path: '/dashboard',
       name: 'dashboard',
       component: DashboardComponent
+    },
+
+    {
+      path: '/show/:id',
+      name: 'show',
+      component: show
     }
   ]
 })
