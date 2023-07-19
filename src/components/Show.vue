@@ -1,21 +1,30 @@
 <script>
 import draggable from 'vuedraggable'
 import axios from 'axios'
+// import Select2 from 'vue3-select2-component';
 
 export default {
   name: 'App',
+  isDropdownOpen: false,
+  selectedOption: null,
+  options: ['Option 1', 'Option 2', 'Option 3'],
   components: {
     draggable
   },
   data() {
     return {
       lists: [],
-      newTask: ''
+      boardListName: '',
+      password: '',
+      card:''
     }
   },
   methods: {
     add() {
       // Add new task logic
+    },
+    toggleDropdown() {
+      this.isDropdownOpen = !this.isDropdownOpen
     },
     onSortChange(evt) {
       const addedItem = evt.added ? evt.added.element : null
@@ -30,11 +39,46 @@ export default {
       console.log('Moved Card:', movedCard)
       console.log('From List:', fromList)
       console.log('To List:', toList)
+    },
+    handleLogin(e) {
+      this.loading = true
+      e.preventDefault()
+      axios
+        .post('http://localhost:8000/api/boards/1/lists', { boardListName: this.boardListName})
+        .then((res) => {
+          console.log(res)
+          if (res.status === 200) {
+            console.log(res.data)
+            router.push('show')
+            this.loading = false
+          }
+        })
+        .catch(function (error) {
+          console.error(error)
+        })
+    },
+
+    handleCard(e) {
+      this.loading = true
+      e.preventDefault()
+      axios
+        .post('http://localhost:8000/api/cards', { title: this.title})
+        .then((res) => {
+          console.log(res)
+          if (res.status === 200) {
+            console.log(res.data)
+            router.push('show')
+            this.loading = false
+          }
+        })
+        .catch(function (error) {
+          console.error(error)
+        })
     }
   },
   mounted() {
-    axios.get('http://127.0.0.1:8000/api/boards/2').then((response) => {
-        console.log(response.data)
+    axios.get('http://127.0.0.1:8000/api/boards/1').then((response) => {
+      console.log(response.data)
       this.lists = response.data.lists
     })
   }
@@ -47,6 +91,48 @@ export default {
   </head>
   <div class="container mt-5">
     <div class="row">
+      
+
+      <form>
+        <div class="form-group">
+          <label>BoardList</label>
+          <input v-model="boardListName" type="boardListName" class="form-control form-control-lg" />
+        </div>
+        <button @click="handleLogin" type="submit" class="btn btn-dark btn-lg btn-block">
+          Sign In
+        </button>
+      </form>
+
+
+      <form>
+        <div class="form-group">
+          <label>Card</label>
+          <input v-model="title" type="title" class="form-control form-control-lg" />
+        </div>
+
+        <button @click="handleCard" type="submit" class="btn btn-dark btn-lg btn-block">
+          Sign In
+        </button>
+      </form>
+      <div>
+        <button v-on:click="toggleDropdown">Toggle Dropdown</button>
+
+        <div v-if="isDropdownOpen" class="dropdown">
+          <ul>
+            <li>Option 1</li>
+            <li>Option 2</li>
+            <li>Option 3</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- <div>
+        <select v-model="selectedOption">
+          <option v-for="option in options" :value="option">{{ option }}</option>
+        </select>
+        <p>Selected option: {{ selectedOption }}</p>
+      </div> -->
+
       <div class="col form-inline">
         <b-form-input
           id="input-2"
@@ -64,13 +150,14 @@ export default {
           class="p-2 w-full alert"
           :class="['alert-secondary', 'alert-primary', 'alert-warning', 'alert-success'][index]"
         >
-          <h4>{{ list.name }}
-        <button
-            class="hidden w-8 h-8 bg-gray-50 group-hover:grid rounded-md text-gray-600 hover:text-black hover:bg-gray-200"
-          >
-            <i class="fa fa-bars w-5" />
-          </button>
-        </h4>
+          <h4>
+            {{ list.name }}
+            <button
+              class="hidden w-8 h-8 bg-gray-50 group-hover:grid rounded-md text-gray-600 hover:text-black hover:bg-gray-200"
+            >
+              <i class="fa fa-bars w-5" />
+            </button>
+          </h4>
           <draggable
             class="list-group kanban-column"
             :list="list.cards"
@@ -92,5 +179,13 @@ export default {
 <style>
 .kanban-column {
   min-height: 300px;
+}
+
+.dropdown {
+  display: none; /* Initially hide the dropdown */
+}
+
+.dropdown.open {
+  display: block; /* Show the dropdown when open */
 }
 </style>

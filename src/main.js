@@ -9,7 +9,7 @@ import router from "@/router";
 
 import '@fortawesome/fontawesome-free/css/all.css';
 import '@fortawesome/fontawesome-free/js/all.js';
-
+// import Select2 from 'vue3-select2-component';
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
 
@@ -25,7 +25,7 @@ const app = createApp(App);
 app.component('draggable', draggable);
 
  app.use(router);
-
+//  app.component('Select2', Select2)
 app.mount('#app');
 
 

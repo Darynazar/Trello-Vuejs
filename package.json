@@ -26,6 +26,7 @@
     "vue": "^3.3.4",
     "vue-axios": "^3.5.2",
     "vue-router": "^4.2.2",
+    "vue3-select2-component": "^0.1.7",
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
