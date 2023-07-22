@@ -3,20 +3,30 @@ import draggable from 'vuedraggable'
 import axios from 'axios'
 // import Select2 from 'vue3-select2-component';
 
+import Modal from './modal/Modal.vue'
+import { ref } from 'vue'
+// import Modal from "./components/modal/Modal.vue"
 export default {
   name: 'App',
   isDropdownOpen: false,
   selectedOption: null,
   options: ['Option 1', 'Option 2', 'Option 3'],
+
+  setup() {
+    const isOpen = ref(false)
+
+    return { isOpen }
+  },
   components: {
-    draggable
+    draggable,
+    Modal
   },
   data() {
     return {
       lists: [],
       boardListName: '',
       password: '',
-      card:''
+      card: ''
     }
   },
   methods: {
@@ -44,7 +54,7 @@ export default {
       this.loading = true
       e.preventDefault()
       axios
-        .post('http://localhost:8000/api/boards/1/lists', { boardListName: this.boardListName})
+        .post('http://localhost:8000/api/boards/1/lists', { boardListName: this.boardListName })
         .then((res) => {
           console.log(res)
           if (res.status === 200) {
@@ -62,7 +72,7 @@ export default {
       this.loading = true
       e.preventDefault()
       axios
-        .post('http://localhost:8000/api/cards', { title: this.title})
+        .post('http://localhost:8000/api/cards', { title: this.title })
         .then((res) => {
           console.log(res)
           if (res.status === 200) {
@@ -89,20 +99,32 @@ export default {
   <head>
     <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css" />
   </head>
+
+  <!-- <button @click="isOpen = true">Show modal</button>
+
+  <Modal :open="isOpen" @click="isOpen = !isOpen">
+    <p>
+      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae consequuntur delectus in,
+      nobis inventore maiores. Assumenda saepe neque quas pariatur recusandae veniam! Facilis
+      accusamus quasi non quia temporibus reprehenderit hic.
+    </p>
+  </Modal> -->
+
   <div class="container mt-5">
     <div class="row">
-      
-
       <form>
         <div class="form-group">
           <label>BoardList</label>
-          <input v-model="boardListName" type="boardListName" class="form-control form-control-lg" />
+          <input
+            v-model="boardListName"
+            type="boardListName"
+            class="form-control form-control-lg"
+          />
         </div>
         <button @click="handleLogin" type="submit" class="btn btn-dark btn-lg btn-block">
           Sign In
         </button>
       </form>
-
 
       <form>
         <div class="form-group">
@@ -144,22 +166,29 @@ export default {
         <b-button @click="add" variant="primary" class="ml-3">Add</b-button>
       </div>
     </div>
-    <div class="row mt-5">
+    <div class="row mt-5 flex-nowrap">
       <div class="col-3" v-for="(list, index) in lists" :key="list.id">
         <div
-          class="p-2 w-full alert"
+          class="p-2 w-full alert h-50 overflow-scroll"
           :class="['alert-secondary', 'alert-primary', 'alert-warning', 'alert-success'][index]"
         >
-          <h4>
-            {{ list.name }}
-            <button
-              class="hidden w-8 h-8 bg-gray-50 group-hover:grid rounded-md text-gray-600 hover:text-black hover:bg-gray-200"
-            >
-              <i class="fa fa-bars w-5" />
-            </button>
-          </h4>
+          <div class="d-flex">
+            <h4>
+              {{ list.name }}
+             
+            </h4>
+                <button class="h-50" @click="isOpen = true">
+                  <i :open="isOpen" @click="isOpen = true" class="fa fa-bars"> </i>
+                </button>
+
+                <!-- </i> -->
+          </div>
+          <Modal :key="list.id" :open="isOpen" @click="isOpen = !isOpen">
+            <input type="text" />
+          </Modal>
+
           <draggable
-            class="list-group kanban-column"
+            class="list-group kanban-column overflow-scroll"
             :list="list.cards"
             group="tasks"
             @change="onSortChange"
