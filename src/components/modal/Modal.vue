@@ -25,9 +25,9 @@ export default {
     }
   },
   setup(_, {emit}) {
-    const close = () => {
-        emit("close");
-    };
+    // const close = () => {
+    //     emit("close");
+    // };
 
     const handleKeyup = (event) => {
         if(event.keyCode == 27) {
@@ -58,7 +58,7 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+ 
   overflow-x: hidden;
   overflow-y: auto;
   background-color: rgba(0, 0, 0, 0.4);

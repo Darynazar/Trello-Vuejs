@@ -33,6 +33,11 @@ export default {
     add() {
       // Add new task logic
     },
+    holo(index) {
+      console.log(this.lists[index].flag)
+      console.log(index)
+      this.lists[index].flag = !this.lists[index].flag
+    },
     toggleDropdown() {
       this.isDropdownOpen = !this.isDropdownOpen
     },
@@ -68,7 +73,7 @@ export default {
         })
     },
 
-    handleCard(e) {
+     handleCard(e) {
       this.loading = true
       e.preventDefault()
       axios
@@ -86,19 +91,22 @@ export default {
         })
     }
   },
+  
   mounted() {
     axios.get('http://127.0.0.1:8000/api/boards/1').then((response) => {
       console.log(response.data)
       this.lists = response.data.lists
+      this.lists.forEach((el) => {
+        el.flag = false
+      })
+      console.log(this.lists)
     })
   }
 }
 </script>
 
 <template>
-  <head>
-    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css" />
-  </head>
+ 
 
   <!-- <button @click="isOpen = true">Show modal</button>
 
@@ -122,7 +130,7 @@ export default {
           />
         </div>
         <button @click="handleLogin" type="submit" class="btn btn-dark btn-lg btn-block">
-          Sign In
+          Add Boardlist
         </button>
       </form>
 
@@ -133,20 +141,9 @@ export default {
         </div>
 
         <button @click="handleCard" type="submit" class="btn btn-dark btn-lg btn-block">
-          Sign In
+          Create Card
         </button>
       </form>
-      <div>
-        <button v-on:click="toggleDropdown">Toggle Dropdown</button>
-
-        <div v-if="isDropdownOpen" class="dropdown">
-          <ul>
-            <li>Option 1</li>
-            <li>Option 2</li>
-            <li>Option 3</li>
-          </ul>
-        </div>
-      </div>
 
       <!-- <div>
         <select v-model="selectedOption">
@@ -175,20 +172,19 @@ export default {
           <div class="d-flex">
             <h4>
               {{ list.name }}
-             
             </h4>
-                <button class="h-50" @click="isOpen = true">
-                  <i :open="isOpen" @click="isOpen = true" class="fa fa-bars"> </i>
-                </button>
+            <button class="h-25" @click="holo(index)">
+              <i :open="this.lists[index].flag" @click="holo(index)" class="fa fa-bars"> </i>
+            </button>
 
-                <!-- </i> -->
+            <!-- </i> -->
           </div>
-          <Modal :key="list.id" :open="isOpen" @click="isOpen = !isOpen">
+          <Modal :key="list.id" :open="this.lists[index].flag" @click="holo(index)">
             <input type="text" />
           </Modal>
 
           <draggable
-            class="list-group kanban-column overflow-scroll"
+            class="list-group kanban-column"
             :list="list.cards"
             group="tasks"
             @change="onSortChange"
