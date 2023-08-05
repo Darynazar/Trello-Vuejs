@@ -6,7 +6,7 @@
         v-show="open">
           <vue-modal-content>
             <slot />
-            <button type="button" @click="close">Close</button>
+            <button type="button" v-on:click="close()">Close</button>
           </vue-modal-content>
         </div>
       </Transition>
@@ -25,18 +25,18 @@ export default {
     }
   },
   setup(_, {emit}) {
-    // const close = () => {
-    //     emit("close");
-    // };
-
-    const handleKeyup = (event) => {
-        if(event.keyCode == 27) {
-            close()
-        }
-    }
-
-    onMounted(() => document.addEventListener("keyup", handleKeyup));
-    onUnmounted(() => document.removeEventListener("keyup", handleKeyup));
+    const close = () => {
+        emit("close");
+    };
+    //
+    // const handleKeyup = (event) => {
+    //     if(event.keyCode == 27) {
+    //         close()
+    //     }
+    // }
+    //
+    // onMounted(() => document.addEventListener("keyup", handleKeyup));
+    // onUnmounted(() => document.removeEventListener("keyup", handleKeyup));
 
 
     return {close};
@@ -58,7 +58,7 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
- 
+
   overflow-x: hidden;
   overflow-y: auto;
   background-color: rgba(0, 0, 0, 0.4);
